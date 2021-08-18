@@ -24,7 +24,7 @@
                         >UI Components</a
                     >
                 </p>
-                <button @click.prevent="logoutAction">Logout</button>
+                <button @click.prevent="logoutAction" class="btn btn-danger">Logout</button>
             </div>
         </ion-content>
     </ion-page>
