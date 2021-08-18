@@ -1,19 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { stringifyQuery } from 'vue-router'
 import { AUTH_TOKEN, useAuth } from './Auth'
 
-export const clientWithAuth = (endpoint: string) => {
-    const { user } = useAuth()
-
-    return client(endpoint, user?.value ? user.value[AUTH_TOKEN] : undefined)
-}
-
 export const client = (endpoint: string, token?: string) => {
     const client = axios.create({
-        baseURL: process.env.API_URL,
+        baseURL: process.env.VUE_APP_API,
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: token ? `Bearer ${token}` : undefined
         }
     })
 
@@ -46,7 +40,6 @@ export const client = (endpoint: string, token?: string) => {
     ) => {
         loading.value = true
         error.value = null
-
         return client
             .post(endpoint, payload, config)
             .then(response => (data.value = response.data))
@@ -88,10 +81,11 @@ export const client = (endpoint: string, token?: string) => {
             .finally(() => (loading.value = false))
     }
 
-    const errorDetails = computed(() => {
-        if (error.value && error.value.response) {
-            return error.value.response.data.message
+    const errorMessage = computed(() => {
+        if (error.value) {
+            return error.value.message
         }
+        return ''
     })
 
     return {
@@ -99,9 +93,15 @@ export const client = (endpoint: string, token?: string) => {
         post,
         put,
         destroy,
-        errorDetails,
+        errorMessage,
         loading,
         data,
         error
     }
+}
+
+export const clientWithAuth = (endpoint: string) => {
+    const { user } = useAuth()
+
+    return client(endpoint, user.value ? user.value[AUTH_TOKEN] : undefined)
 }
