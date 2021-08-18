@@ -28,14 +28,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const { isAuthenticated } = useAuth();
-    console.log(isAuthenticated.value, to.meta.guard)
     if (isAuthenticated.value === false && to.meta.guard === GUARD_AUTH) {
         next({ name: 'login' });
-    } else if (isAuthenticated.value === true && to.meta.guard === GUARD_GUEST) {
-        next({ name: 'home' });
-    } else {
-        next();
+        return;
     }
+    if (isAuthenticated.value === true && to.meta.guard === GUARD_GUEST) {
+        next({ name: 'home' });
+        return;
+    }
+    next();
 });
 
 export default router;

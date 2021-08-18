@@ -20,7 +20,6 @@
                         <ion-label>Email</ion-label>
                         <ion-input
                             type="email"
-                            placeholder="Email"
                             v-model="email"
                             autofocus
                         ></ion-input>
@@ -29,7 +28,6 @@
                         <ion-label>Password</ion-label>
                         <ion-input
                             type="password"
-                            placeholder="Password"
                             v-model="password"
                         ></ion-input>
                     </ion-item>
@@ -95,6 +93,7 @@ export default defineComponent({
             post(payload).then((response) => {
                 getUser(response.token).then((user) => {
                     setUser(user, true);
+                    payload.password = '';
                     router.push({ name: 'home' });
                 });
             });
