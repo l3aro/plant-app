@@ -66,7 +66,6 @@ import { useRouter } from 'vue-router';
 interface LoginPayload {
     email: string;
     password: string;
-    deviceName: string;
 }
 
 export default defineComponent({
@@ -90,7 +89,6 @@ export default defineComponent({
         const payload = reactive<LoginPayload>({
             email: '',
             password: '',
-            deviceName: 'device-1',
         });
 
         const submit = () => {
