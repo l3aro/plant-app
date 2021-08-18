@@ -65,7 +65,7 @@ export const useAuth = () => {
         if (remember) {
             localStorage.setItem(AUTH_KEY, payload[AUTH_TOKEN]);
         }
-
+        state.isAuthenticated = true;
         state.user = payload;
         state.error = undefined;
     };
@@ -74,6 +74,7 @@ export const useAuth = () => {
         localStorage.removeItem(AUTH_KEY);
         const { post } = clientWithAuth(process.env.VUE_APP_API_LOGOUT);
         post();
+        state.isAuthenticated = false;
         return Promise.resolve((state.user = undefined));
     };
 

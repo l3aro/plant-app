@@ -55,7 +55,7 @@ export default defineComponent({
         const { logout } = useAuth();
         const router = useRouter();
         const logoutAction = () => {
-            logout().then(() => router.push('/login'));
+            logout().then(() => router.push({ name: 'login' }));
         };
 
         return {
