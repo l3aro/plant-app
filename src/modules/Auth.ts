@@ -1,7 +1,7 @@
 import AuthState from '@/types/AuthState';
 import User from '@/types/User';
 import { reactive, toRefs, watch } from 'vue';
-import { client } from '@/modules/Client';
+import { client, clientWithAuth } from '@/modules/Client';
 
 const AUTH_KEY = 'plant_token';
 export const AUTH_TOKEN = 'access_token';
@@ -72,6 +72,8 @@ export const useAuth = () => {
 
     const logout = (): Promise<void> => {
         localStorage.removeItem(AUTH_KEY);
+        const { post } = clientWithAuth(process.env.VUE_APP_API_LOGOUT);
+        post();
         return Promise.resolve((state.user = undefined));
     };
 

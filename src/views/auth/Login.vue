@@ -93,7 +93,7 @@ export default defineComponent({
 
         const submit = () => {
             post(payload).then((response) => {
-                getUser(response).then((user) => {
+                getUser(response.token).then((user) => {
                     setUser(user, true);
                     router.push({ name: 'home' });
                 });
